@@ -1,0 +1,22 @@
+<div class="command-line-container">
+  <input type="text"
+    class="form-control"
+    placeholder="Insert command"
+    [formControl]="commandLine"
+    (keyup.enter)="executeCommand(commandLine.value)"
+    (keydown)="getHistory($event)">
+
+  <div class="font-italic text-muted suggestions pl-2 mb-0 h-auto">
+    <small *ngIf="!commandLine.dirty || commandLine.value.length < 3">no command enter (min. 3 char)</small>
+    <small *ngIf="commandLine.valid" class="suggestion"> {{ activeCommand?.suggestion }}</small>
+    <small
+      class="text-danger"
+      *ngIf="!commandLine.valid
+        && commandLine.errors
+        && commandLine.errors.allowedCommand
+        && commandLine.errors.allowedCommand.value
+        && commandLine.errors.allowedCommand.value.length >= 3">
+          command not found
+    </small>
+  </div>
+</div>

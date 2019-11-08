@@ -1,0 +1,20 @@
+ul {
+  padding-left: 0;
+
+  li {
+    list-style: none;
+    cursor: pointer;
+    margin: .5rem;
+
+    i {
+      font-size: 1.2rem;
+      vertical-align: text-bottom;
+    }
+  }
+}
+
+h3 {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    padding-bottom: 1.1rem;
+  }
+}

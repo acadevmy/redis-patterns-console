@@ -1,0 +1,39 @@
+.scroll-box-container {
+  background: white;
+  border: 1px solid #ccc;
+  min-height: 200px;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    min-height: 120px;
+  }
+  @media (min-width: 320px) and (max-width: 767px) {
+    min-height: 90px;
+  }
+
+  ul {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      cursor: pointer;
+      margin: .5rem;
+
+      &:hover {
+        .badge {
+          display: inline-block!important;
+          i {
+            font-size: 12px;
+          }
+          &:hover {
+            color: #7a0c00;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.filter-container {
+  margin: 0 0rem .5rem 0;
+}

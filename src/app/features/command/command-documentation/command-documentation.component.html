@@ -1,0 +1,10 @@
+<h3 class="h4 mt-2">Documentation</h3>
+<div class="flex-fill scroll-box-container">
+  <div class="scroll-box">
+    <div *ngIf="documentation; else noDoc" [innerHTML]="documentation | markdown"></div>
+  </div>
+</div>
+
+<ng-template #noDoc>
+  No Command selected.
+</ng-template>

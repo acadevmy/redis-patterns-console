@@ -1,0 +1,49 @@
+.pattern-container {
+  margin-bottom: 2rem;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    min-height: 250px;
+  }
+
+  a {
+    font-weight: bold;
+    text-decoration: none;
+
+    &:link, &:active, &:visited {
+      color: #004085!important;
+    }
+
+    &:hover {
+      color: #0577f3!important;
+    }
+  }
+
+  .pattern-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+
+    h3 {
+      flex: 1;
+      border-bottom: none;
+    }
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .scroll-box {
+    height: 90%!important;
+  }
+
+  .muted {
+    outline: none;
+  }
+}
+

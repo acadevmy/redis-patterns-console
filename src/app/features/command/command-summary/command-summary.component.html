@@ -1,0 +1,19 @@
+<div>
+  <h3 class="h4">Summary</h3>
+  <dl *ngIf="command; else noCommand">
+    <dt>Command</dt>
+    <dd>{{ command.key }}</dd>
+    <dt>Description</dt>
+    <dd>{{ command.summary }}</dd>
+    <dt>Complexity</dt>
+    <dd>{{ command.complexity }}</dd>
+    <dt>Since</dt>
+    <dd>{{ command.since }}</dd>
+    <dt>Suggestion</dt>
+    <dd>{{ command.suggestion }}</dd>
+  </dl>
+</div>
+
+<ng-template #noCommand>
+  No Command selected.
+</ng-template>
