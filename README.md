@@ -31,6 +31,7 @@ Thanks for your future contributions!
 - Stateless Components refactoring and improvements;
 - Continuous refactoring;
 - Blacklist Enum; [TBD]
+- Increase GitHub API calls (with GitHub login) to 5000 (per token);
 - Everythings you notice! 🙏
 
 &nbsp;
