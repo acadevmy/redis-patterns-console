@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-import { version } from '../../../../../package.json';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'tr-header',
@@ -20,7 +20,7 @@ import { version } from '../../../../../package.json';
 })
 export class HeaderComponent implements AfterViewInit {
   title = 'Redis Patterns';
-  version = version;
+  version = environment.version;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 

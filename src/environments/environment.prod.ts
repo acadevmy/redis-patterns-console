@@ -1,3 +1,5 @@
+import { version } from 'package.json';
+
 export const environment = {
   production: true,
   redisServer: '', // ADD HERE YOUR WS SERVER URL
@@ -12,5 +14,6 @@ export const environment = {
     path: 'acadevmy/redis-patterns-cookbook',
     json: 'patterns.json'
   },
-  cacheableHeaderKey: 'cacheable-request'
+  cacheableHeaderKey: 'cacheable-request',
+  version: version
 };
