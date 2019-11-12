@@ -18,7 +18,7 @@ import { Component, ChangeDetectorRef, AfterViewInit } from '@angular/core';
   ]
 })
 export class HeaderComponent implements AfterViewInit {
-  title = 'Redis Patterns';
+  title = 'Redis Patterns Console';
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
