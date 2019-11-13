@@ -19,7 +19,7 @@ import { environment } from '@app/../environments/environment';
   ]
 })
 export class HeaderComponent implements AfterViewInit {
-  title = 'Redis Patterns';
+  title = 'Redis Patterns Console';
   version = environment.version;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}

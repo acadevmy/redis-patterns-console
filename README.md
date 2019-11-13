@@ -9,7 +9,10 @@ _Redis Patterns Console_ is an interactive (and reactive) console, written in An
 - _Step by Step_ Patterns panel, with integrated command execution and detection of contextual official [Redis doc](https://github.com/antirez/redis-doc);
 - Command-line and history of Redis Server responses;
 - Command list (divided by categories) and detection of contextual official [Redis doc](https://github.com/antirez/redis-doc);
+- Interactive Command suggestion;
 - Isolated Client sessions.
+
+![redis-patterns-console](https://acadevmy.it/redis-patterns-console.gif "Redis Patterns Console")
 
 _Redis Patterns Console_ is inspired by [Try-Redis](https://try.redis.io/) project.
 
@@ -28,6 +31,7 @@ Thanks for your future contributions!
 - Stateless Components refactoring and improvements;
 - Continuous refactoring;
 - Blacklist Enum; [TBD]
+- Increase GitHub API calls (with GitHub login) to 5000 (per token);
 - Everythings you notice! 🙏
 
 &nbsp;
