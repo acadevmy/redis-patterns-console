@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@app/../environments/environment';
 
 @Component({
   selector: 'tr-header',

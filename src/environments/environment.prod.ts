@@ -15,5 +15,5 @@ export const environment = {
     json: 'patterns.json'
   },
   cacheableHeaderKey: 'cacheable-request',
-  version: version
+  version
 };
