@@ -11,17 +11,18 @@ import { tap } from 'rxjs/operators';
 ​
 import { environment } from '@app/../environments/environment';
 import { CachingService } from '@app/core/services/caching.service';
+import { GithubDataService } from '@app/core/services/github-data.service';
 ​
 @Injectable({
   providedIn: 'root'
 })
 export class CacheInterceptor implements HttpInterceptor {
 ​
-  constructor(private cachingService: CachingService) { }
+  constructor(private cachingService: CachingService, private githubDataService: GithubDataService) { }
 ​
   intercept(request: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
-    if (environment.basicAuth && environment.basicAuth.length) {
-      request = request.clone({ setHeaders: { Authorization: `Basic ${btoa(environment.basicAuth)}` } });
+    if (this.githubDataService.accessToken && this.githubDataService.accessToken.length) {
+      request = request.clone({ setHeaders: { Authorization: `token ${this.githubDataService.accessToken}` } });
     }
 ​
     if (!request.headers.has(environment.cacheableHeaderKey))  {

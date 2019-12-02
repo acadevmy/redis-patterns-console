@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { environment } from '@app/../environments/environment';
 import { Command } from '@app/shared/models/command.interface';
 import { Pattern } from '@app/shared/models/pattern.interface';
 import { CachingService } from '@app/core/services/caching.service';
-import { GithubContent } from '@app/shared/models/github-content.interface';
+import { GithubContent, ITokenResponse } from '@app/shared/models/github-content.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class GithubDataService {
+  authorized = new BehaviorSubject<boolean>(false);
+  accessToken: string;
   private redisDocPath = environment.redisDocRepo.path;
   private patternsPath = environment.patternsRepo.path;
 
-  constructor(private http: HttpClient, private cachingService: CachingService) { }
+  constructor(
+    private http: HttpClient,
+    private cachingService: CachingService) { }
 
   /**
    * Fetch all available commands from remote git repo
@@ -89,5 +93,24 @@ export class GithubDataService {
    */
   private getEndpoint(repo: string, file: string): string {
     return environment.githubEndpoint.replace('_repo_', repo).replace('_file_', file);
+  }
+
+  setAccessToken(code?: string): Observable<boolean> {
+    return this.http.get(environment.accessTokenRequestUrl + code).pipe(
+      switchMap((res: ITokenResponse) => {
+        const isToken = (res.data.access_token) ? true : false;
+        this.authorized.next(isToken);
+        this.accessToken = res.data && res.data.access_token;
+        return this.isAuth;
+      }),
+      catchError(() => {
+        this.authorized.next(false);
+        return this.isAuth;
+      })
+    );
+  }
+
+  get isAuth() {
+    return this.authorized.asObservable();
   }
 }

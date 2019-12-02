@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Output } from '@app/shared/models/response.interface';
 import { Pattern } from '@app/shared/models/pattern.interface';
 import { CommandService } from '@app/core/services/command.service';
+import { GithubDataService } from '@app/core/services/github-data.service';
 import { PatternService } from '@app/core/services/pattern.service';
 import { RedisConnectService } from '@app/core/services/redis-connect.service';
 
@@ -17,8 +18,10 @@ export class AppComponent {
   activePattern: Pattern;
   newCommandForInput: string;
   resetCommand$: Observable<number> = this.redisConnectService.execCommandTime$;
+  isAuth$: Observable<boolean> = this.githubDataService.isAuth;
 
   constructor(
+    private githubDataService: GithubDataService,
     public commandService: CommandService,
     public patternService: PatternService,
     private redisConnectService: RedisConnectService) {
