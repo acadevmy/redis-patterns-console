@@ -1,29 +1,33 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Component, OnDestroy} from '@angular/core';
 
-import { Output } from '@app/shared/models/response.interface';
-import { Pattern } from '@app/shared/models/pattern.interface';
-import { CommandService } from '@app/core/services/command.service';
-import { PatternService } from '@app/core/services/pattern.service';
-import { RedisConnectService } from '@app/core/services/redis-connect.service';
+import {Output} from '@app/shared/models/response.interface';
+import {Pattern} from '@app/shared/models/pattern.interface';
+import {CommandService} from '@app/core/services/command.service';
+import {PatternService} from '@app/core/services/pattern.service';
+import {RedisConnectService} from '@app/core/services/redis-connect.service';
+
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'tr-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
+  private responseSub: Subscription = Subscription.EMPTY;
+
   responses: Output[] = [];
   selectedDoc: string;
   activePattern: Pattern;
   newCommandForInput: string;
   resetCommand$: Observable<number> = this.redisConnectService.execCommandTime$;
 
+
   constructor(
     public commandService: CommandService,
     public patternService: PatternService,
     private redisConnectService: RedisConnectService) {
-      this.redisConnectService.response$.subscribe((response: Output) => this.updateResponses(response));
-    }
+    this.responseSub = this.redisConnectService.response$.subscribe((response: Output) => this.updateResponses(response));
+  }
 
   /**
    * Set current command as the active one
@@ -63,9 +67,21 @@ export class AppComponent {
     this.selectActiveCommand(first);
   }
 
+  /**
+   * reset responses
+   *
+   */
+  clearOutput(): void {
+    this.responses = [];
+  }
+
   private updateResponses(command: Output) {
     const commands = [];
     Object.assign(commands, [...this.responses, command]);
     this.responses = commands;
+  }
+
+  ngOnDestroy(): void {
+    this.responseSub.unsubscribe();
   }
 }

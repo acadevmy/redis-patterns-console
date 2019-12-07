@@ -37,7 +37,7 @@
             </tr-command-list>
           </div>
           <div class="flex-grow-1 d-flex">
-            <tr-command-output class="d-flex flex-column h-auto w-100" [commandsOutput]="responses">
+            <tr-command-output class="d-flex flex-column h-auto w-100" [commandsOutput]="responses" (clearEvt)="clearOutput($event)">
             </tr-command-output>
           </div>
 
