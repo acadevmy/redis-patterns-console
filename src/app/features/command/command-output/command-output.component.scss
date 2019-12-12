@@ -1,12 +1,12 @@
 ul {
   list-style: none;
-  padding: .5rem;
+  padding: 0.5rem;
 
   li {
     &.command {
       color: #736767;
-      font-size: .7rem;
-      padding-top: .6rem;
+      font-size: 0.7rem;
+      padding-top: 0.6rem;
 
       span {
         font-style: italic;
@@ -14,7 +14,7 @@ ul {
     }
 
     &.response {
-      padding-bottom: .6rem;
+      padding-bottom: 0.6rem;
       border-bottom: 1px solid #ccc;
 
       .run-command {
@@ -24,7 +24,7 @@ ul {
 
     span {
       display: inline-block;
-      padding: 0 .25rem;
+      padding: 0 0.25rem;
       margin-bottom: 0;
     }
   }
@@ -40,4 +40,20 @@ ul {
     padding-bottom: 2rem !important;
   }
 }
+.flex-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: stretch;
+  align-items: flex-start;
 
+  .flex-button,
+  .flex-span {
+    flex: 0 1 auto;
+    align-self: auto;
+  }
+  .flex-span {
+    align-self: flex-end;
+  }
+}
