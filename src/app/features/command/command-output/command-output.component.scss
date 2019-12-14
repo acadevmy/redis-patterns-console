@@ -52,8 +52,15 @@ ul {
   .flex-span {
     flex: 0 1 auto;
     align-self: auto;
+    background-color: transparent;
+    border-color: transparent;
   }
+
   .flex-span {
     align-self: flex-end;
+  }
+
+  button:focus {
+    outline: 0;
   }
 }
