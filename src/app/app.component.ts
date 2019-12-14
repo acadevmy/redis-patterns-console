@@ -6,16 +6,15 @@ import {CommandService} from '@app/core/services/command.service';
 import {PatternService} from '@app/core/services/pattern.service';
 import {RedisConnectService} from '@app/core/services/redis-connect.service';
 
-import {Observable, Subscription, BehaviorSubject} from 'rxjs';
-import {scan} from 'rxjs/operators';
+import {Observable, BehaviorSubject, merge, of} from 'rxjs';
+import {scan, catchError} from 'rxjs/operators';
 
 
 @Component({
   selector: 'tr-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnDestroy {
-  private responseSub: Subscription = Subscription.EMPTY;
+export class AppComponent {
 
   readonly responses$: Observable<Output[]>;
 
@@ -33,12 +32,13 @@ export class AppComponent implements OnDestroy {
     public commandService: CommandService,
     public patternService: PatternService,
     private redisConnectService: RedisConnectService) {
-    this.responseSub = this.redisConnectService.response$
-      .subscribe((response: Output) => this.currentResponseBs.next(response));
 
     /** when currentResponse$ is null reset responses$ */
-    this.responses$ = this.currentResponse$.pipe(
-      scan((a, c) => c != null ? [...a, c] : [], []),
+    this.responses$ = merge(
+      this.currentResponse$,
+      this.redisConnectService.response$.pipe(catchError(() =>  of(null)))
+      ).pipe(
+        scan((a, c) => c != null ? [...a, c] : [], [])
     );
   }
 
@@ -86,9 +86,5 @@ export class AppComponent implements OnDestroy {
    */
   clearOutput(): void {
     this.currentResponseBs.next(null);
-  }
-
-  ngOnDestroy(): void {
-    this.responseSub.unsubscribe();
   }
 }
