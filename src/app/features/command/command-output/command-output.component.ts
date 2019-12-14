@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, EventEmitter, Output} from '@angular/core';
 
-import { Output } from '@app/shared/models/response.interface';
+import {Output as OutputItf} from '@app/shared/models/response.interface';
 
 @Component({
   selector: 'tr-command-output',
@@ -9,5 +9,11 @@ import { Output } from '@app/shared/models/response.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandOutputComponent {
-  @Input() commandsOutput: Array<Output> = [];
+  @Input() commandsOutput: Array<OutputItf> = [];
+  @Output()
+  clearEvt: EventEmitter<void> = new EventEmitter<void>();
+
+  clear(): void {
+    this.clearEvt.emit();
+  }
 }
