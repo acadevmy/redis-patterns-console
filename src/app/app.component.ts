@@ -6,8 +6,8 @@ import {CommandService} from '@app/core/services/command.service';
 import {PatternService} from '@app/core/services/pattern.service';
 import {RedisConnectService} from '@app/core/services/redis-connect.service';
 
-import {Observable, BehaviorSubject, merge, of} from 'rxjs';
-import {scan, catchError} from 'rxjs/operators';
+import {Observable, BehaviorSubject, merge} from 'rxjs';
+import {scan} from 'rxjs/operators';
 
 
 @Component({
@@ -19,9 +19,7 @@ export class AppComponent {
   readonly responses$: Observable<Output[]>;
 
   private currentResponseBs: BehaviorSubject<Output> = new BehaviorSubject<Output>(null);
-  get currentResponse$() {
-    return this.currentResponseBs.asObservable();
-  }
+
 
   selectedDoc: string;
   activePattern: Pattern;
@@ -35,8 +33,8 @@ export class AppComponent {
 
     /** when currentResponse$ is null reset responses$ */
     this.responses$ = merge(
-      this.currentResponse$,
-      this.redisConnectService.response$.pipe(catchError(() =>  of(null)))
+      this.currentResponseBs.asObservable(),
+      this.redisConnectService.response$
       ).pipe(
         scan((a, c) => c != null ? [...a, c] : [], [])
     );
