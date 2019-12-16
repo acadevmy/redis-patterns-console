@@ -1,6 +1,6 @@
 <div class="container-fluid d-flex h-100 flex-column">
   <div class="row">
-    <tr-header class="col"></tr-header>
+    <tr-header class="col" [isAuth]="isAuth$ | async"></tr-header>
   </div>
   <div class="row flex-fill" *ngIf="(commandService.commands$ | async) as commands; else loading">
     <div class="d-flex flex-lg-row flex-md-column flex-fill" *ngIf="{activeCommand: commandService.activeCommand$ | async} as data">

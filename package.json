@@ -1,6 +1,6 @@
 {
   "name": "redis-patterns-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -23,6 +23,7 @@
     "bootstrap": "^4.3.1",
     "markdown": "^0.5.0",
     "rxjs": "~6.5.3",
+    "serialize-javascript": "^2.1.2",
     "tslib": "^1.9.0",
     "uuid": "^3.3.3",
     "zone.js": "~0.9.1"

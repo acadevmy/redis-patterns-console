@@ -1,14 +1,14 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {Output} from '@app/shared/models/response.interface';
 import {Pattern} from '@app/shared/models/pattern.interface';
+import { GithubDataService } from '@app/core/services/github-data.service';
 import {CommandService} from '@app/core/services/command.service';
 import {PatternService} from '@app/core/services/pattern.service';
 import {RedisConnectService} from '@app/core/services/redis-connect.service';
 
 import {Observable, BehaviorSubject, merge} from 'rxjs';
 import {scan} from 'rxjs/operators';
-
 
 @Component({
   selector: 'tr-root',
@@ -17,26 +17,23 @@ import {scan} from 'rxjs/operators';
 export class AppComponent {
 
   readonly responses$: Observable<Output[]>;
-
   private currentResponseBs: BehaviorSubject<Output> = new BehaviorSubject<Output>(null);
-
 
   selectedDoc: string;
   activePattern: Pattern;
   newCommandForInput: string;
   resetCommand$: Observable<number> = this.redisConnectService.execCommandTime$;
+  isAuth$: Observable<boolean> = this.githubDataService.isAuth;
 
   constructor(
+    private githubDataService: GithubDataService,
     public commandService: CommandService,
     public patternService: PatternService,
     private redisConnectService: RedisConnectService) {
 
     /** when currentResponse$ is null reset responses$ */
-    this.responses$ = merge(
-      this.currentResponseBs.asObservable(),
-      this.redisConnectService.response$
-      ).pipe(
-        scan((a, c) => c != null ? [...a, c] : [], [])
+    this.responses$ = merge(this.currentResponseBs.asObservable(), this.redisConnectService.response$).pipe(
+      scan((previous, current) => (current != null) ? [...previous, current] : [], [])
     );
   }
 

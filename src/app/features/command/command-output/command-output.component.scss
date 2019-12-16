@@ -40,24 +40,16 @@ ul {
     padding-bottom: 2rem !important;
   }
 }
+
 .flex-box {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-between;
-  align-content: stretch;
-  align-items: flex-start;
+  align-items: center;
 
-  .flex-button,
-  .flex-span {
-    flex: 0 1 auto;
-    align-self: auto;
+  .flex-button {
     background-color: transparent;
     border-color: transparent;
-  }
-
-  .flex-span {
-    align-self: flex-end;
+    padding: 0;
   }
 
   button:focus {

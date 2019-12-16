@@ -22,7 +22,11 @@ export class RedisConnectService {
       const valid = response.status === 'ok';
       return { valid, type: 'response', output: response.output };
     }),
-    catchError(() =>  of(null))
+    catchError(() =>  {
+      /** return connection error response to not clear the output response box */
+      const valid = false;
+      return  of({ valid, type: 'response', output: 'Connection error' });
+    })
   );
 
   send(command: string) {
