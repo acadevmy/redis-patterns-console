@@ -15,7 +15,7 @@
       </button>
     </div>
 
-    <div class="scroll-box">
+    <div class="scroll-box" #scrollBox>
       <p [innerHTML]="steps[currentStep]  | markdown" *ngIf='steps && steps[currentStep]'></p>
     </div>
 </div>

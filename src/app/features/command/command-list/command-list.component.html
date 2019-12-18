@@ -18,7 +18,7 @@
       <input type="text" class="form-control form-control-sm" placeholder="Search command" #search (input)="true">
     </div>
     <div class="flex-fill scroll-box-container command-list-container">
-      <div class="scroll-box">
+      <div class="scroll-box" #scrollBox>
         <ul>
           <li
             *ngFor="let command of filteredCommands | searchFilter: 'key': search.value | searchFilter: 'group': activeCategory"
