@@ -1,12 +1,13 @@
 @import "./variables";
 @import "./../../node_modules/bootstrap/scss/bootstrap.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap");
 
-html,body{
-  height:100%;
-  font-size: .9rem;
-  font-family: 'Open Sans', sans-serif;
+html,
+body {
+  height: 100%;
+  font-size: 0.9rem;
+  font-family: "Open Sans", sans-serif;
 }
 
 .scroll-box-container {
@@ -28,7 +29,7 @@ html,body{
 
 .col-center {
   background: #ebebeb;
-  border-color: #ccc!important;
+  border-color: #ccc !important;
 }
 
 code {
@@ -39,26 +40,29 @@ code {
   font-size: 0.8rem;
   text-transform: uppercase;
   border-bottom: 1px solid #ccc;
-  padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
 }
 
+.h7,
 h3.h4 {
   color: #7a0c00;
   font-weight: bolder;
 }
-
+.h7 {
+  font-size: 1rem;
+}
 tr-pattern-content h1 {
-  font-size: 1.3rem!important;
+  font-size: 1.3rem !important;
   font-weight: bold;
 }
 
 tr-pattern-content h2 {
-  font-size: 1.1rem!important;
+  font-size: 1.1rem !important;
   font-weight: bold;
 }
 
 tr-command-documentation h2 {
-  font-size: 1.1rem!important;
+  font-size: 1.1rem !important;
   font-weight: bold;
 }
 
@@ -72,7 +76,6 @@ tr-pattern-content {
   border-radius: 0;
   box-shadow: 0;
 }
-
 
 .scroll-box::-webkit-scrollbar {
   -webkit-appearance: none;
@@ -89,7 +92,7 @@ tr-pattern-content {
 .scroll-box::-webkit-scrollbar-thumb {
   border-radius: 8px;
   border: 2px solid white; /* should match background, can't be transparent */
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .scroll-box::-webkit-scrollbar-track {
@@ -107,6 +110,10 @@ tr-pattern-content {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

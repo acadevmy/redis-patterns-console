@@ -1,11 +1,15 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+
+import { version } from 'package.json';
 ​
 export const environment = {
   production: false,
   redisServer: 'ws://127.0.0.1:8080',
-  basicAuth: '', // ADD HERE YOUR GITHUB "user:token" to prevent API rate limit
+  githubAppClientId: '',
+  accessTokenRequestUrl: '',
+  loginFlowStart: 'https://github.com/login/oauth/authorize?client_id=',
   githubEndpoint: 'https://api.github.com/repos/_repo_/contents/_file_',
   redisDocRepo: {
     path: 'antirez/redis-doc',
@@ -16,7 +20,8 @@ export const environment = {
     path: 'acadevmy/redis-patterns-cookbook',
     json: 'patterns.json'
   },
-  cacheableHeaderKey: 'cacheable-request'
+  cacheableHeaderKey: 'cacheable-request',
+  version
 };
 ​
 /*

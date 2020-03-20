@@ -1,7 +1,11 @@
+import { version } from 'package.json';
+
 export const environment = {
   production: true,
   redisServer: '', // ADD HERE YOUR WS SERVER URL
-  basicAuth: '', // ADD HERE YOUR GITHUB "user:token" to prevent API rate limit
+  githubAppClientId: '', // ADD HERE YOUR GITHUB APP CLIENT ID
+  accessTokenRequestUrl: '', // ADD HERE BACKEND OAUTH IMPLEMENTATION
+  loginFlowStart: 'https://github.com/login/oauth/authorize?client_id=',
   githubEndpoint: 'https://api.github.com/repos/_repo_/contents/_file_',
   redisDocRepo: {
     path: 'antirez/redis-doc',
@@ -12,5 +16,6 @@ export const environment = {
     path: 'acadevmy/redis-patterns-cookbook',
     json: 'patterns.json'
   },
-  cacheableHeaderKey: 'cacheable-request'
+  cacheableHeaderKey: 'cacheable-request',
+  version
 };
