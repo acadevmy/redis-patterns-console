@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'tr-command-documentation',
@@ -7,5 +7,10 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 })
 
 export class CommandDocumentationComponent {
-  @Input() documentation = '';
+  public documentation = '';
+  @ViewChild('scrollBox', {static: true}) scrollBox: ElementRef;
+  @Input('documentation') set resetScroll(document: string) {
+    this.documentation = document;
+    this.scrollBox.nativeElement.scrollTop = 0;
+  }
 }

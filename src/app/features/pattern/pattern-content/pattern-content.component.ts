@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
 
 import { Pattern } from '@app/shared/models/pattern.interface';
 
@@ -15,7 +15,9 @@ enum Paginator {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PatternContentComponent {
+  @ViewChild('scrollBox', {static: false}) scrollBox: ElementRef;
   @Input('patternContent') set newStep(data: Array<string>) {
+    this.resetScroll();
     this.steps = data;
     this.currentStep = 0;
   }
@@ -49,6 +51,8 @@ export class PatternContentComponent {
    * @param type boolean (TRUE: previous step, FALSE: next step)
    */
   changeStep(type: Paginator) {
+    this.resetScroll();
+
     switch (type) {
       case Paginator.FIRST_PAGE:
         this.currentStep = 0;
@@ -61,6 +65,12 @@ export class PatternContentComponent {
           break;
       case Paginator.LAST_PAGE:
         this.currentStep = this.steps.length - 1;
+    }
+  }
+
+  private resetScroll() {
+    if (this.scrollBox) {
+      this.scrollBox.nativeElement.scrollTop = 0;
     }
   }
 }
