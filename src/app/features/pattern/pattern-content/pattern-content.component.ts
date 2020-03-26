@@ -17,8 +17,7 @@ enum Paginator {
 export class PatternContentComponent {
   @ViewChild('scrollBox', {static: false}) scrollBox: ElementRef;
   @Input('patternContent') set newStep(data: Array<string>) {
-    if(this.scrollBox)
-      this.scrollBox.nativeElement.scrollTop = 0;
+    this.resetScroll();
     this.steps = data;
     this.currentStep = 0;
   }
@@ -43,7 +42,7 @@ export class PatternContentComponent {
       if (targetElement.target.hash === '#run') {
         this.run.emit(command);
       } else {
-        this.help.emit(command);  
+        this.help.emit(command);
       }
     }
 
@@ -52,8 +51,8 @@ export class PatternContentComponent {
    * @param type boolean (TRUE: previous step, FALSE: next step)
    */
   changeStep(type: Paginator) {
-    if(this.scrollBox)
-      this.scrollBox.nativeElement.scrollTop = 0;
+    this.resetScroll();
+
     switch (type) {
       case Paginator.FIRST_PAGE:
         this.currentStep = 0;
@@ -66,6 +65,12 @@ export class PatternContentComponent {
           break;
       case Paginator.LAST_PAGE:
         this.currentStep = this.steps.length - 1;
+    }
+  }
+
+  private resetScroll() {
+    if (this.scrollBox) {
+      this.scrollBox.nativeElement.scrollTop = 0;
     }
   }
 }
