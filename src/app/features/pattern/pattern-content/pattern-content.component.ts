@@ -15,7 +15,7 @@ enum Paginator {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PatternContentComponent {
-  @ViewChild('scrollBox', {static: false}) scrollBox: ElementRef;
+  @ViewChild('scrollBox') scrollBox: ElementRef;
   @Input('patternContent') set newStep(data: Array<string>) {
     this.resetScroll();
     this.steps = data;
