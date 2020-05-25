@@ -22,7 +22,7 @@ jobs:
          npm install -g @angular/cli
          npm install
          node ./.github/workflows/ng-env-replace.js
-         ng build --prod --base-href="/farming-game-calc/"
+         ng build --prod --base-href="/redis-patterns-console/"
       env:
           REDIS_SERVER_API_WS: ${{ secrets.REDIS_SERVER_API_WS }}
     - name: Deploy
