@@ -29,36 +29,56 @@ export class CommandLineComponent implements OnInit {
 
   @Input() allowedCommands: Array<Command> = [];
   @Input() activeCommand: Command;
+
   @Input('writeCommand') set newCommand(data: string) {
-    if (data !== undefined) {
-      this.commandLine.setValue(data);
-      this.commandLine.markAsDirty();
-    }
-  }
-  @Input('reset') set resetCommandLine(data: number) {
-    if (data) {
-      this.commandLine.reset();
-    }
+    if (data == undefined) return;
+    
+    this.commandLine.setValue(data);
+    this.commandLine.markAsDirty();
   }
 
-  @Output() detectCommand: EventEmitter<any> = new EventEmitter();
-  @Output() execute: EventEmitter<any> = new EventEmitter();
+  @Input('reset') set resetCommandLine(data: number) {
+    if (!data) return;
+
+    this.commandLine.reset();
+  }
+
+  @Output() detectCommand: EventEmitter<string> = new EventEmitter();
+  @Output() execute: EventEmitter<string> = new EventEmitter();
 
   /**
    * Init command line input text with its validator
    * and start to observe its value changes.
    */
   ngOnInit() {
-    this.commandLine = new FormControl('', [
+    this.commandLine = new FormControl('', this.commandLineValidators);
+    this.detectCommandOnValidValueSet();
+  }
+
+  /**
+   * Emits a detectCommand event on a valid command value emission
+   */
+  detectCommandOnValidValueSet() {
+    this.validCommand$.subscribe((value) => this.detectCommand.emit(value));
+  }
+
+  get commandLineValidators() {
+    return [
       Validators.required,
       allowedCommandValidator(this.allowedCommands)
-    ]);
-    this.commandLine.valueChanges.pipe(
+    ];
+  }
+
+  /** 
+   * Returns a valid command line value observable
+   */
+  get validCommand$() {
+    return this.commandLine.valueChanges.pipe(
       debounceTime(200),
       filter(() => this.commandLine.valid),
       map((value) => value.split(' ')[0]),
       distinctUntilChanged()
-    ).subscribe((value) => this.detectCommand.emit(value));
+    );
   }
 
   /**
@@ -67,15 +87,42 @@ export class CommandLineComponent implements OnInit {
    * @param command the command that should be execute
    */
   executeCommand(command: string) {
-    if (this.commandLine.valid) {
-      this.execute.emit(command.trim());
-      this.commandsHistoryCursor = 0;
+    if (this.commandLine.invalid) return;
 
-      if (this.commandsHistory[0] !== command.trim()) {
-        this.commandsHistory.unshift(command.trim());
-      }
-      this.commandLine.reset();
+    command = command.trim();
+    const isNewCommand = this.commandsHistory[0] !== command;
+
+    this.emitExecEvent(command);
+    
+    if (isNewCommand) {
+      this.addCommandToHistory(command);
     }
+
+    this.resetCommandHistory();
+  }
+
+  /**
+   * Emits the execute event
+   * @param command The command to be executed
+   */
+  emitExecEvent(command: string) {
+    this.execute.emit(command);
+  }
+
+  /**
+   * Adds a command at the start of the commands history array
+   * @param command The command to be added
+   */
+  addCommandToHistory(command: string) {
+    this.commandsHistory.unshift(command);
+  }
+
+  /**
+   * Resets history cursor and command line to the default value
+   */
+  resetCommandHistory() {
+    this.commandsHistoryCursor = 0;
+    this.commandLine.reset();
   }
 
   /**
@@ -83,19 +130,28 @@ export class CommandLineComponent implements OnInit {
    * @param event a keyboard event
    */
   getHistory(event: KeyboardEvent) {
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      if (this.commandsHistory.length > 0 && this.commandsHistory.length > this.commandsHistoryCursor) {
-        this.commandLine.setValue(this.commandsHistory[this.commandsHistoryCursor++]);
-      }
-    }
+    let historyCommand: string;
+    const hasHistory = this.commandsHistory.length > 0;
+    const canBrowseUpHistory = this.commandsHistory.length > this.commandsHistoryCursor;
+    const isHistoryBrowsedUp = this.commandsHistoryCursor > 0;
+    
+    switch (event.key) {
+      case 'ArrowUp': {
+        if (!hasHistory || !canBrowseUpHistory) break;
 
-    if (event.key === 'ArrowDown') {
-      if (this.commandsHistory.length > 0 && this.commandsHistoryCursor > 0) {
-        this.commandLine.setValue(this.commandsHistory[--this.commandsHistoryCursor]);
-      } else {
-        this.commandsHistoryCursor = 0;
-        this.commandLine.setValue('');
+        historyCommand = this.commandsHistory[this.commandsHistoryCursor++];
+        this.commandLine.setValue(historyCommand);
+        break;
+      }
+
+      case 'ArrowDown': {
+        if (!hasHistory || !isHistoryBrowsedUp) {
+          this.resetCommandHistory();
+          break;
+        }
+      
+        historyCommand = this.commandsHistory[--this.commandsHistoryCursor];
+        this.commandLine.setValue(historyCommand);
       }
     }
   }
