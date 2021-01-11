@@ -8,7 +8,7 @@ import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from
 
 export class CommandDocumentationComponent {
   public documentation = '';
-  @ViewChild('scrollBox', {static: true}) scrollBox: ElementRef;
+  @ViewChild('scrollBox', { static: true }) scrollBox: ElementRef;
   @Input('documentation') set resetScroll(document: string) {
     this.documentation = document;
     this.scrollBox.nativeElement.scrollTop = 0;
