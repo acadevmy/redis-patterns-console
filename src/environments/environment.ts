@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 import { version } from 'package.json';
-​
+
 export const environment = {
   production: false,
   redisServer: 'ws://127.0.0.1:8080',
@@ -23,7 +23,7 @@ export const environment = {
   cacheableHeaderKey: 'cacheable-request',
   version
 };
-​
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -32,3 +32,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+
