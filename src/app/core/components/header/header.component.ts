@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, AfterViewInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from '@app/../environments/environment';
 
 @Component({
