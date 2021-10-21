@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Pattern } from '@app/shared/models/pattern.interface';
@@ -11,10 +11,12 @@ import { Pattern } from '@app/shared/models/pattern.interface';
 })
 export class PatternListComponent {
   @Input() patterns$: Observable<Pattern[]>;
+
   @Output() selected = new EventEmitter<Pattern>();
+
   current: Pattern;
 
-  select(pattern: Pattern) {
+  select(pattern: Pattern): void {
     this.current = pattern;
     this.selected.emit(pattern);
   }

@@ -2,7 +2,11 @@
 <div class="flex-fill scroll-box-container">
   <div class="scroll-box">
     <ul>
-      <li *ngFor="let pattern of patterns$ | async" (click)="select(pattern)" [class.text-primary]="current == pattern">
+      <li
+        *ngFor="let pattern of patterns$ | async"
+        (click)="select(pattern)"
+        [class.text-primary]="current === pattern"
+      >
         <i class="material-icons">description</i> {{ pattern.title }}
       </li>
     </ul>
