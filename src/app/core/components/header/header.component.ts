@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterViewInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from '@app/../environments/environment';
 
 @Component({
@@ -16,21 +16,12 @@ import { environment } from '@app/../environments/environment';
         color:white;
       }
     `
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent {
   title = 'Redis Patterns Console';
   version = environment.version;
   loginUrl = environment.loginFlowStart + environment.githubAppClientId;
-  isLogged: boolean;
-  @Input('isAuth') set islogged(data: boolean) {
-    this.isLogged = data;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
-
-  ngAfterViewInit() {
-    this.changeDetectorRef.detach();
-  }
+  @Input('isAuth') isLogged: boolean;
 }
