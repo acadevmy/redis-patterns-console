@@ -7,3 +7,4 @@ commitlint.config.js
 
 # files to exclude
 src/index.html
+src/test.ts
