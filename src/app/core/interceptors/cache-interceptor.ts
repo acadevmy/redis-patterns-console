@@ -17,23 +17,37 @@ import { CachingService } from '@app/core/services/caching.service';
 })
 export class CacheInterceptor implements HttpInterceptor {
 ​
-  constructor(private cachingService: CachingService) { }
+  public constructor(private readonly cachingService: CachingService) { }
 ​
-  intercept(request: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {​
-    if (!request.headers.has(environment.cacheableHeaderKey))  {
+  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.isCacheableRequest(request)) {
       return next.handle(request);
     }
-    /** remove cacheable headers form original request */
-    request = request.clone({ headers: request.headers.delete(environment.cacheableHeaderKey) });
-    const cachedResponse = this.cachingService.get(request.url);
-    return cachedResponse ? of(cachedResponse) : this.sendRequest(request, next);
+
+    const cachedResponse = this.getCachedResponse(request);
+    if (cachedResponse) {
+      return of(cachedResponse);
+    }
+    
+    return this.nextAndCache(request, next);
+  }
+
+  private getCachedResponse(request: HttpRequest<any>): HttpResponse<any> {
+    return this.cachingService.get(request.url);
+  }
+
+  private isCacheableRequest(request: HttpRequest<any>): boolean {
+    return request.headers.has(environment.cacheableHeaderKey);
   }
 ​
-  sendRequest(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
+  private nextAndCache(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    /* remove cacheable headers form original request */
+    request = request.clone({ headers: request.headers.delete(environment.cacheableHeaderKey) });
+    
+    return next.handle(request).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
-          this.cachingService.set(req.url, event);
+          this.cachingService.set(request.url, event);
         }
       })
     );
