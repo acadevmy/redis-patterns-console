@@ -19,7 +19,7 @@ import { AppComponent } from '@app/app.component';
     SharedModule,
     CommandModule,
     PatternModule,
-    RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot([]),
   ],
   bootstrap: [AppComponent]
 })
