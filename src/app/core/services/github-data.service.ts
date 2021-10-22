@@ -101,16 +101,20 @@ export class GithubDataService {
         const isToken = (res.data.access_token) ? true : false;
         this.authorized.next(isToken);
         this.accessToken = res.data && res.data.access_token;
-        return this.isAuth;
+        return this.isAuth$;
       }),
       catchError(() => {
         this.authorized.next(false);
-        return this.isAuth;
+        return this.isAuth$;
       })
     );
   }
 
-  get isAuth() {
+  get isAuth$() {
     return this.authorized.asObservable();
+  }
+
+  get isAuth(): boolean {
+    return this.authorized.value;
   }
 }
