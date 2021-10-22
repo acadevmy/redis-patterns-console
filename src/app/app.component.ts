@@ -23,7 +23,7 @@ export class AppComponent {
   activePattern: Pattern;
   newCommandForInput: string;
   resetCommand$: Observable<number> = this.redisConnectService.execCommandTime$;
-  isAuth$: Observable<boolean> = this.githubDataService.isAuth;
+  isAuth$: Observable<boolean> = this.githubDataService.isAuth$;
 
   constructor(
     private githubDataService: GithubDataService,
