@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { Command } from '@app/shared/models/command.interface';
 
@@ -8,17 +8,20 @@ import { Command } from '@app/shared/models/command.interface';
   styleUrls: ['./command-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class CommandListComponent {
   filteredCommands: Array<Command> = [];
+
   categories: Array<string> = [];
+
   activeCommand: Command;
+
   activeCategory = '';
 
-  @ViewChild('scrollBox', {static: true}) scrollBox: ElementRef;
+  @ViewChild('scrollBox', { static: true }) scrollBox: ElementRef;
+
   @Input('commands') set setCommands(data: Array<Command>) {
     this.filteredCommands = data;
-    const array = this.filteredCommands.map(item => item.group);
+    const array = this.filteredCommands.map((item) => item.group);
     array.push('');
     this.categories = Array.from(new Set(array)).sort();
   }
@@ -31,13 +34,14 @@ export class CommandListComponent {
   }
 
   @Output() selected = new EventEmitter<string>();
+
   @Output() writeCommand = new EventEmitter<string>();
 
   /**
    * Emits an event when a command is selected from command list box.
    * @param command name of selected command
    */
-  select(command: Command) {
+  select(command: Command): void {
     this.activeCommand = command;
     this.selected.emit(this.activeCommand.key);
   }
@@ -46,7 +50,7 @@ export class CommandListComponent {
    * Emits an event when command relative "input" icon is selected
    * @param command name of realtive command
    */
-  writeToCommandLine(command: Command) {
+  writeToCommandLine(command: Command): void {
     this.select(command);
     this.writeCommand.emit(this.activeCommand.key);
   }
@@ -55,7 +59,7 @@ export class CommandListComponent {
    * Set as current category the one is selected.
    * @param category category name
    */
-  setActiveCategory(category: string) {
+  setActiveCategory(category: string): void {
     this.scrollBox.nativeElement.scrollTop = 0;
     this.activeCategory = category;
   }

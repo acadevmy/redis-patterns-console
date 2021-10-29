@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-
-import { allowedCommandValidator } from './command-line.validator';
 import { Command } from '@app/shared/models/command.interface';
+import { allowedCommandValidator } from './command-line.validator';
 
 @Component({
   selector: 'tr-command-line',
@@ -12,11 +11,11 @@ import { Command } from '@app/shared/models/command.interface';
     `
       .input-group-text {
         background: white;
-        font-size: .9em;
+        font-size: 0.9em;
       }
 
       .form-control {
-        font-size: .9em;
+        font-size: 0.9em;
       }
     `
   ],
@@ -24,41 +23,46 @@ import { Command } from '@app/shared/models/command.interface';
 })
 export class CommandLineComponent implements OnInit {
   commandLine: FormControl;
+
   commandsHistory: string[] = [];
+
   commandsHistoryCursor = 0;
 
   @Input() allowedCommands: Array<Command> = [];
+
   @Input() activeCommand: Command;
+
   @Input('writeCommand') set newCommand(data: string) {
     if (data !== undefined) {
       this.commandLine.setValue(data);
       this.commandLine.markAsDirty();
     }
   }
+
   @Input('reset') set resetCommandLine(data: number) {
     if (data) {
       this.commandLine.reset();
     }
   }
 
-  @Output() detectCommand: EventEmitter<any> = new EventEmitter();
-  @Output() execute: EventEmitter<any> = new EventEmitter();
+  @Output() detectCommand: EventEmitter<unknown> = new EventEmitter();
+
+  @Output() execute: EventEmitter<unknown> = new EventEmitter();
 
   /**
    * Init command line input text with its validator
    * and start to observe its value changes.
    */
-  ngOnInit() {
-    this.commandLine = new FormControl('', [
-      Validators.required,
-      allowedCommandValidator(this.allowedCommands)
-    ]);
-    this.commandLine.valueChanges.pipe(
-      debounceTime(200),
-      filter(() => this.commandLine.valid),
-      map((value) => value.split(' ')[0]),
-      distinctUntilChanged()
-    ).subscribe((value) => this.detectCommand.emit(value));
+  ngOnInit(): void {
+    this.commandLine = new FormControl('', [Validators.required, allowedCommandValidator(this.allowedCommands)]);
+    this.commandLine.valueChanges
+      .pipe(
+        debounceTime(200),
+        filter(() => this.commandLine.valid),
+        map((value: string) => value.split(' ')[0]),
+        distinctUntilChanged()
+      )
+      .subscribe((value) => this.detectCommand.emit(value));
   }
 
   /**
@@ -66,7 +70,7 @@ export class CommandLineComponent implements OnInit {
    * and add it to commands history, finally reset command line input.
    * @param command the command that should be execute
    */
-  executeCommand(command: string) {
+  executeCommand(command: string): void {
     if (this.commandLine.valid) {
       this.execute.emit(command.trim());
       this.commandsHistoryCursor = 0;
@@ -82,7 +86,7 @@ export class CommandLineComponent implements OnInit {
    * Implements command input history on keyboard arrow up/down press event
    * @param event a keyboard event
    */
-  getHistory(event: KeyboardEvent) {
+  getHistory(event: KeyboardEvent): void {
     if (event.key === 'ArrowUp') {
       event.preventDefault();
       if (this.commandsHistory.length > 0 && this.commandsHistory.length > this.commandsHistoryCursor) {

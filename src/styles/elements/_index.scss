@@ -1,0 +1,29 @@
+@import './../settings/colors';
+
+html,
+body {
+  height: 100%;
+  font-size: 0.9rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+code {
+    white-space: pre-wrap;
+}
+  
+.h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+}
+  
+.h7,
+h3.h4 {
+    color: $deep-red;
+    font-weight: bolder;
+}
+
+.h7 {
+    font-size: 1rem;
+}

@@ -1,11 +1,22 @@
-import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { Command } from '@app/shared/models/command.interface';
 
 export function allowedCommandValidator(allowedCommands: Command[]): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const value = control.value ? control.value.split(' ')[0] : '';
-    const allowed = allowedCommands.length === 0 || allowedCommands.some((item: Command) => item.key.toLowerCase() === value.toLowerCase());
-    return !allowed ? { allowedCommand: {value: control.value} } : null;
+  const allowedCommandKeys = allowedCommands.map((item) => item.key.toLowerCase());
+
+  return (control: AbstractControl): ValidationErrors | null => {
+    let value: string = control.value;
+    value = value ? value.split(' ')[0] : '';
+
+    if (allowedCommandKeys.length === 0) {
+      return null;
+    }
+
+    if (allowedCommandKeys.includes(value.toLowerCase())) {
+      return null;
+    }
+
+    return { allowedCommand: { value: control.value } };
   };
 }

@@ -13,7 +13,7 @@ import { environment } from '@app/../environments/environment';
       }
 
       a {
-        color:white;
+        color: white;
       }
     `
   ],
@@ -21,7 +21,11 @@ import { environment } from '@app/../environments/environment';
 })
 export class HeaderComponent {
   title = 'Redis Patterns Console';
+
   version = environment.version;
+
   loginUrl = environment.loginFlowStart + environment.githubAppClientId;
+
   @Input('isAuth') isLogged: boolean;
+
 }
