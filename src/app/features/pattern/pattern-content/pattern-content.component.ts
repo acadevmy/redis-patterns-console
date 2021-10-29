@@ -1,4 +1,13 @@
-import { Component, EventEmitter, HostListener, Input, Output, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 
 import { Pattern } from '@app/shared/models/pattern.interface';
 
@@ -16,41 +25,47 @@ enum Paginator {
 })
 export class PatternContentComponent {
   @ViewChild('scrollBox') scrollBox: ElementRef;
+
   @Input('patternContent') set newStep(data: Array<string>) {
     this.resetScroll();
     this.steps = data;
     this.currentStep = 0;
   }
+
   @Input() activePattern: Pattern;
+
   @Output() help = new EventEmitter<string>();
+
   @Output() run = new EventEmitter<string>();
 
   currentStep: number;
+
   steps: Array<string>;
+
   paginator = Paginator;
 
   /**
    *  On click occurs emits run or help event based on elemnt target hash
    */
   @HostListener('click', ['$event'])
-    onClick(targetElement) {
-      if (targetElement.target.nodeName !== 'A') {
-        return;
-      }
-
-      const command = targetElement.target.innerText;
-      if (targetElement.target.hash === '#run') {
-        this.run.emit(command);
-      } else {
-        this.help.emit(command);
-      }
+  onClick(targetElement: { target: HTMLElement & { hash: string } }): void {
+    if (targetElement.target.nodeName !== 'A') {
+      return;
     }
+
+    const command = targetElement.target.innerText;
+    if (targetElement.target.hash === '#run') {
+      this.run.emit(command);
+    } else {
+      this.help.emit(command);
+    }
+  }
 
   /**
    * Navigate to new page of pattern
    * @param type boolean (TRUE: previous step, FALSE: next step)
    */
-  changeStep(type: Paginator) {
+  changeStep(type: Paginator): void {
     this.resetScroll();
 
     switch (type) {
@@ -61,14 +76,14 @@ export class PatternContentComponent {
         this.currentStep--;
         break;
       case Paginator.NEXT_PAGE:
-          this.currentStep++;
-          break;
+        this.currentStep++;
+        break;
       case Paginator.LAST_PAGE:
         this.currentStep = this.steps.length - 1;
     }
   }
 
-  private resetScroll() {
+  private resetScroll(): void {
     if (this.scrollBox) {
       this.scrollBox.nativeElement.scrollTop = 0;
     }

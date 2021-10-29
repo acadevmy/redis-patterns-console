@@ -4,8 +4,11 @@
     <div class="flex-fill scroll-box-container command-list-container">
       <div class="scroll-box">
         <ul>
-          <li [class.text-primary]="activeCategory === category" *ngFor="let category of categories"
-            (click)="setActiveCategory(category)">
+          <li
+            [class.text-primary]="activeCategory === category"
+            *ngFor="let category of categories"
+            (click)="setActiveCategory(category)"
+          >
             <ng-container *ngIf="category !== ''; else allCategories">{{ category | uppercase }}</ng-container>
             <ng-template #allCategories>ALL</ng-template>
           </li>
@@ -15,22 +18,22 @@
   </div>
   <div class="col-sm-6 d-md-flex flex-column h-md-100">
     <div class="filter-container">
-      <input type="text" class="form-control form-control-sm" placeholder="Search command" #search (input)="true">
+      <input type="text" class="form-control form-control-sm" placeholder="Search command" #search (input)="(true)" />
     </div>
     <div class="flex-fill scroll-box-container command-list-container">
       <div class="scroll-box" #scrollBox>
         <ul>
           <li
-            *ngFor="let command of filteredCommands | searchFilter: 'key': search.value | searchFilter: 'group': activeCategory"
+            *ngFor="
+              let command of filteredCommands | searchFilter: 'key':search.value | searchFilter: 'group':activeCategory
+            "
             [class.text-primary]="command.key.toLowerCase().trim() === this.activeCommand?.key.toLowerCase().trim()"
-            class="d-flex">
-              <span (click)="select(command)">{{ command.key }}</span>
-              <span
-                class="badge d-none"
-                title="Write it on command input"
-                (click)="writeToCommandLine(command)">
-                  <i class="material-icons">input</i>
-              </span>
+            class="d-flex"
+          >
+            <span (click)="select(command)">{{ command.key }}</span>
+            <span class="badge d-none" title="Write it on command input" (click)="writeToCommandLine(command)">
+              <i class="material-icons">input</i>
+            </span>
           </li>
         </ul>
       </div>
