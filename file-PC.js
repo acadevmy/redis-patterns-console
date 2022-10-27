@@ -1,1 +1,1 @@
-let uno = 'prova di copia'
+let uno = 'prova di copia da remoto a locale'
